@@ -113,7 +113,6 @@ export function ControlPanel() {
                 placeholder="e.g., ^ERROR"
                 value={filter}
                 onChange={(e) => setFilter(e.target.value)}
-                disabled={!isConnected}
                 className="filter-input-with-clear"
               />
               {filter && (
