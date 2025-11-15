@@ -54,7 +54,7 @@ export function MonitorDisplay() {
         }
         return part;
       });
-    } catch (e) {
+    } catch {
       return text;
     }
   };
