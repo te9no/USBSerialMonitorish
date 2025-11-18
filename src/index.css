@@ -53,6 +53,12 @@ body {
   margin-bottom: 1rem;
 }
 
+.monitor-controls {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
 .monitor-content {
   background-color: #1a1a1a;
   border-radius: 4px;
@@ -213,6 +219,7 @@ select:disabled {
   cursor: not-allowed;
 }
 
+.copy-btn,
 .clear-btn {
   background-color: #333;
   padding: 0.5rem 1rem;

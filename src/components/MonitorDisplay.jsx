@@ -1,9 +1,10 @@
-import React, { useRef, useEffect, useMemo } from 'react';
+import React, { useRef, useEffect, useMemo, useState } from 'react';
 import { useSerialPort } from '../hooks/useSerialPort';
 
 export function MonitorDisplay() {
   const { output, clearOutput, filter } = useSerialPort();
   const monitorRef = useRef(null);
+  const [copyButtonText, setCopyButtonText] = useState('Copy');
 
   const filteredOutput = useMemo(() => {
     if (!filter) {
@@ -25,6 +26,19 @@ export function MonitorDisplay() {
     }
   }, [filteredOutput]);
 
+  const handleCopy = async () => {
+    const textToCopy = filteredOutput.map(line => line.replace(/\n$/, '')).join('\n');
+    try {
+      await navigator.clipboard.writeText(textToCopy);
+      setCopyButtonText('Copied!');
+      setTimeout(() => {
+        setCopyButtonText('Copy');
+      }, 1000);
+    } catch (err) {
+      console.error('Failed to copy:', err);
+    }
+  };
+
   const renderHighlightedText = (text, searchPattern) => {
     if (!searchPattern) {
       return text;
@@ -40,7 +54,7 @@ export function MonitorDisplay() {
         }
         return part;
       });
-    } catch (e) {
+    } catch {
       return text;
     }
   };
@@ -58,6 +72,7 @@ export function MonitorDisplay() {
       <div className="monitor-header">
         <h2>Monitor Output</h2>
         <div className="monitor-controls">
+          <button onClick={handleCopy} className="copy-btn">{copyButtonText}</button>
           <button onClick={clearOutput} className="clear-btn">Clear</button>
         </div>
       </div>
